@@ -1,0 +1,35 @@
+
+version: "3.8"
+services:
+  flask-app:
+    ports:
+      - "6034:6034"
+    container_name: flask-api
+    build:
+      context: ./flask-api-otel
+    depends_on:
+      - otel-collector
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - "4318:4318"
+      - "8889:8889"
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+  react-frontend:
+    ports:
+      - "3001:80"
+    container_name: react-frontend
+    build:
+      context: ./react-frontend

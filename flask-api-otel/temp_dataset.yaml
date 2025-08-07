@@ -1,0 +1,6 @@
+
+            path: /Users/sahilbodkhe/Desktop/Experiment4/Experiment_5/data/eval
+            train: images
+            val: images
+            names: {0: 'Normal Cup', 1: 'Tim Hortons Cup'}
+            
